@@ -2,11 +2,10 @@ package pl.majaszczepanska.product_catalog.dto;
 
 import java.math.BigDecimal;
 import java.util.Map;
-
 import lombok.Data;
 
 @Data
-public class ProductRespone {
+public class ProductResponse {
     private Long id;
     private String name;
     private String description;
