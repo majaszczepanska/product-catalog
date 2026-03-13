@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import pl.majaszczepanska.product_catalog.dto.ProductRequest;
-import pl.majaszczepanska.product_catalog.model.Product;
+import pl.majaszczepanska.product_catalog.dto.ProductResponse;
 import pl.majaszczepanska.product_catalog.service.ProductService;
 
 @RestController
@@ -23,17 +24,17 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping
-    public List<Product> getAll() {
+    public List<ProductResponse> getAll() {
         return productService.getAllProducts();
     }
     
     @PostMapping
-    public Product create(@RequestBody ProductRequest request) {
+    public ProductResponse create(@Valid @RequestBody ProductRequest request) {
         return productService.createProduct(request);
     }
 
     @PutMapping("/{id}")
-    public Product update(@PathVariable Long id, @RequestBody ProductRequest request) {
+    public ProductResponse update(@PathVariable Long id, @Valid @RequestBody ProductRequest request) {
         return productService.updateProduct(id, request);
     }
 
