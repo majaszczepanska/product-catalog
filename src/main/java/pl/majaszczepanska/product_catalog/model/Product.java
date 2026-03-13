@@ -16,6 +16,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.majaszczepanska.product_catalog.config.JsonConverter;
 
 
@@ -35,6 +36,7 @@ public class Product {
     private String description;
     private BigDecimal price;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "producer_id", nullable = false)
     private Producer producer;
