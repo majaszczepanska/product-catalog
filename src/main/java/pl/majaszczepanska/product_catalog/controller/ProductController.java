@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
@@ -22,10 +23,18 @@ import pl.majaszczepanska.product_catalog.service.ProductService;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
-
+    /*
     @GetMapping
     public List<ProductResponse> getAll() {
         return productService.getAllProducts();
+    } */
+
+    @GetMapping
+    public List<ProductResponse> getProducts(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String producerName) {
+        
+        return productService.getProducts(name, producerName);
     }
     
     @PostMapping
