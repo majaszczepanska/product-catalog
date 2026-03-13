@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import pl.majaszczepanska.product_catalog.dto.ProductRequest;
+import pl.majaszczepanska.product_catalog.dto.ProductResponse;
 import pl.majaszczepanska.product_catalog.model.Producer;
 import pl.majaszczepanska.product_catalog.model.Product;
 import pl.majaszczepanska.product_catalog.repository.ProducerRepository;
@@ -19,13 +20,25 @@ public class ProductService {
     private final ProducerRepository producerRepository;
 
     //GET - get all products
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<ProductResponse> getAllProducts() {
+        return productRepository.findAll().stream()
+                .map(this::mapToResponse)
+                .toList();
     }
     
+    private ProductResponse mapToResponse(Product product) {
+        ProductResponse response = new ProductResponse();
+        response.setId(product.getId());
+        response.setName(product.getName());
+        response.setDescription(product.getDescription());
+        response.setPrice(product.getPrice());
+        response.setProducerName(product.getProducer().getName());
+        response.setAttributes(product.getAttributes());
+        return response;
+    }
 
     //POST - create new product
-    public Product createProduct(ProductRequest request) {
+    public ProductResponse createProduct(ProductRequest request) {
         Producer producer = producerRepository.findById(request.getProducerId())
                 .orElseThrow(() -> new RuntimeException("Producer not found"));
         Product product = new Product();
@@ -35,11 +48,12 @@ public class ProductService {
         product.setProducer(producer);
         product.setAttributes(request.getAttributes());
 
-        return productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
+        return mapToResponse(savedProduct);
     }
 
     //PUT - update product by id
-    public Product updateProduct(Long id, ProductRequest request) {
+    public ProductResponse updateProduct(Long id, ProductRequest request) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
         
@@ -48,14 +62,8 @@ public class ProductService {
         product.setPrice(request.getPrice());
         product.setAttributes(request.getAttributes());
 
-         
-        if(request.getProducerId() != null) {
-            Producer producer = producerRepository.findById(request.getProducerId())
-                    .orElseThrow(() -> new RuntimeException("Producer not found"));
-            product.setProducer(producer);
-        }
-
-        return productRepository.save(product);
+        Product updatedProduct = productRepository.save(product);
+        return mapToResponse(updatedProduct);
     }
 
     //DELETE - delete product by id
