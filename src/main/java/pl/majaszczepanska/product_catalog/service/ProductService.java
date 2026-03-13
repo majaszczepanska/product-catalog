@@ -61,6 +61,23 @@ public class ProductService {
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
+    
+    //GET - get products by name and/or producer name
+    public List<ProductResponse> getProducts(String name, String producerName) {
+        List<Product> products;
+        if (name != null && producerName != null) {
+            products = productRepository.findByNameContainingIgnoreCaseAndProducer_NameIgnoreCase(name, producerName);
+        } else if (name != null) {
+            products = productRepository.findByNameContainingIgnoreCase(name);
+        } else if (producerName != null) {
+            products = productRepository.findByProducer_NameIgnoreCase(producerName);
+        } else {
+            products = productRepository.findAll();
+        }
+        return products.stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
 
     //Method to map Product entity to ProductResponse DTO
     private ProductResponse mapToResponse(Product product) {
