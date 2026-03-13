@@ -16,3 +16,8 @@ CREATE TABLE products (
     attributes JSON,
     FOREIGN KEY (producer_id) REFERENCES producers(id)
 );
+
+-- changeset maja:3
+INSERT INTO producers (name) VALUES ('Samsung');
+INSERT INTO producers (name) VALUES ('Apple');
+INSERT INTO producers (name) VALUES ('Sony');
