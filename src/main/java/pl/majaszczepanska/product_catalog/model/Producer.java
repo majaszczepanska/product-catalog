@@ -1,5 +1,6 @@
 package pl.majaszczepanska.product_catalog.model;
 
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -34,4 +35,7 @@ public class Producer {
     @JsonIgnore
     @OneToMany(mappedBy = "producer", cascade = CascadeType.ALL)
     private List<Product> products;
+
+    @Column(name = "created_at")
+    private Date createdAt;
 }

@@ -1,6 +1,7 @@
 package pl.majaszczepanska.product_catalog.model;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.Map;
 
 
@@ -44,5 +45,8 @@ public class Product {
     @Convert(converter = JsonConverter.class)
     @Column(columnDefinition = "json")
     private Map<String, Object> attributes;
+
+    @Column(name = "created_at")
+    private Date createdAt;
 
 }
