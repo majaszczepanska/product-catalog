@@ -21,3 +21,7 @@ CREATE TABLE products (
 INSERT INTO producers (name) VALUES ('Samsung');
 INSERT INTO producers (name) VALUES ('Apple');
 INSERT INTO producers (name) VALUES ('Sony');
+
+-- changeset maja:4
+ALTER TABLE producers ADD COLUMN created_at TIMESTAMP;
+ALTER TABLE products ADD COLUMN created_at TIMESTAMP;
